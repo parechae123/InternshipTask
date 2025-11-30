@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-
+using Singleton;
 public class ResourceManager : SingleTon<ResourceManager>
 {
     public Dictionary<string, object> preLoaded;
@@ -12,6 +12,7 @@ public class ResourceManager : SingleTon<ResourceManager>
     private int goalLoadCount = 0;
     protected override void Init()
     {
+        preLoaded = new Dictionary<string, object>();
         LoadToRegist<object>("Preload", preLoaded);
     }
     public void LoadToRegist<T>(string label, Dictionary<string,T> dict)
@@ -29,7 +30,7 @@ public class ResourceManager : SingleTon<ResourceManager>
                 }
                 else
                 {
-                    Debug.LogError(result.Item1 + "에 해당하는 오디오 소스가 이미 존재합니다.");
+                    Debug.LogError(result.Item1 + "에 해당하는 리소스가 이미 존재합니다.");
                 }
             }
         });
@@ -43,16 +44,6 @@ public class ResourceManager : SingleTon<ResourceManager>
     /// <param name="callback">EX) (obj)=>{targetInstance = obj}</param>
     private void LoadAsync<T>(string key, Action<T> callback, bool isCaching = false)
     {
-        if (key.Contains(".") || key.Contains("/"))
-        {
-
-            int slashIndex = key.LastIndexOf('/') + 1;
-            int pointIndex = key.LastIndexOf('.');
-
-
-            int keyLen = pointIndex != -1? pointIndex-slashIndex : key.Length - slashIndex;
-            key = key.Substring(slashIndex, keyLen);
-        }
         AsyncOperationHandle<T> infoAsyncOP = Addressables.LoadAssetAsync<T>(key);
         infoAsyncOP.Completed += (op) =>
         {
@@ -84,8 +75,20 @@ public class ResourceManager : SingleTon<ResourceManager>
             string curKey = labelKeys.Result[i].PrimaryKey;
             LoadAsync<T>(labelKeys.Result[i].PrimaryKey, (result) =>
             {
+                if (curKey.Contains(".") || curKey.Contains("/"))
+                {
+
+                    int slashIndex = curKey.LastIndexOf('/') + 1;
+                    int pointIndex = curKey.LastIndexOf('.');
+
+
+                    int keyLen = pointIndex != -1 ? pointIndex - slashIndex : curKey.Length - slashIndex;
+                    curKey = curKey.Substring(slashIndex, keyLen);
+                }
+
                 tempT[curIndex].Item1 = curKey;
                 tempT[curIndex].Item2 = result;
+
                 doneCount++;
                 currLoad++;
                 if (doneCount == labelKeys.Result.Count)

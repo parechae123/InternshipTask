@@ -1,64 +1,99 @@
 using UnityEngine;
-public class SingleTon<T> where T : SingleTon<T>, new()
+using System.Collections.Generic;
+namespace Singleton
 {
-    private static T instance;
-    public static T GetInstance
+    public class SingleTon<T> where T : SingleTon<T>, new()
     {
-        get
+        private static T instance;
+        public static T GetInstance
         {
-            if (instance == null)
+            get
             {
-                instance = new T();
-                instance.Init();
-                //YOON : 추후 씬 전환 이벤트 등록 Reset함수
+                if (instance == null)
+                {
+                    instance = new T();
+                    instance.Init();
+                    //YOON : 추후 씬 전환 이벤트 등록 Reset함수
+                }
+                return instance;
             }
-            return instance;
+        }
+        /// <summary>
+        /// 초기세팅
+        /// </summary>
+        protected virtual void Init()
+        {
+
+        }
+        /// <summary>
+        /// 씬 전환시 초기화될것들
+        /// </summary>
+        public virtual void Reset()
+        {
+
         }
     }
-    /// <summary>
-    /// 초기세팅
-    /// </summary>
-    protected virtual void Init()
+    public class MonoSingleTon<T> : MonoBehaviour where T : MonoSingleTon<T>, new()
     {
+        private static T instance;
+        public static T GetInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                    DontDestroyOnLoad(instance.gameObject);
+                    instance.Init();
+                    //YOON : 추후 씬 전환 이벤트 등록 Reset함수
+                }
+                return instance;
+            }
+        }
+        /// <summary>
+        /// 초기세팅
+        /// </summary>
+        protected virtual void Init()
+        {
 
-    }
-    /// <summary>
-    /// 씬 전환시 초기화될것들
-    /// </summary>
-    public virtual void Reset()
-    {
+        }
+        /// <summary>
+        /// 씬 전환시 초기화될것들
+        /// </summary>
+        public virtual void OnSceneChange()
+        {
 
+        }
     }
 }
-public class MonoSingleTon<T> : MonoBehaviour where T : MonoSingleTon<T>, new()
+namespace ParsingData
 {
-    private static T instance;
-    public static T GetInstance
+    [System.Serializable]
+    public class UnitData
     {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new GameObject(typeof(T).Name).AddComponent<T>();
-                DontDestroyOnLoad(instance.gameObject);
-                instance.Init();
-                //YOON : 추후 씬 전환 이벤트 등록 Reset함수
-            }
-            return instance;
-        }
+        public string dataname;
+        public string uiname;
+        public CharactorGrade grade;
+        public string spriteName;
+        public AttackModuleType attackmodule;
+        public float attackrange;
+        public float attackdelay;
+        public float damage;
+        public float summonduration;
+        public float tickdelay;
     }
-    /// <summary>
-    /// 초기세팅
-    /// </summary>
-    protected virtual void Init()
+    [System.Serializable]
+    public class LevelData
     {
-
+        public int level;
+        public float common;
+        public float unCommon;
+        public float rare;
+        public float superRare;
     }
-    /// <summary>
-    /// 씬 전환시 초기화될것들
-    /// </summary>
-    public virtual void OnSceneChange()
+    [System.Serializable]
+    public class Wrapper<T>
     {
-
+        public List<T> Sheet;
     }
 }

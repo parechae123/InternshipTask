@@ -265,7 +265,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -705,7 +705,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2233799354416948660, guid: 6f2363f4f97a3be418538a7ef6ef9977, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4165429502530250951, guid: 6f2363f4f97a3be418538a7ef6ef9977, type: 3}
       propertyPath: m_LocalPosition.x
@@ -944,7 +944,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2233799354416948660, guid: 6734e94066d264b46af423664f493f0c, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4165429502530250951, guid: 6734e94066d264b46af423664f493f0c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1482,7 +1482,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2233799354416948660, guid: 6f2363f4f97a3be418538a7ef6ef9977, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4165429502530250951, guid: 6f2363f4f97a3be418538a7ef6ef9977, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1868,6 +1868,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1953776836}
     m_Modifications:
+    - target: {fileID: 2233799354416948660, guid: 6734e94066d264b46af423664f493f0c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4165429502530250951, guid: 6734e94066d264b46af423664f493f0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.6999998
@@ -2382,7 +2386,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2233799354416948660, guid: 6f2363f4f97a3be418538a7ef6ef9977, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4165429502530250951, guid: 6f2363f4f97a3be418538a7ef6ef9977, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2446,6 +2450,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1953776836}
     m_Modifications:
+    - target: {fileID: 2233799354416948660, guid: 6734e94066d264b46af423664f493f0c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4165429502530250951, guid: 6734e94066d264b46af423664f493f0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.6999998

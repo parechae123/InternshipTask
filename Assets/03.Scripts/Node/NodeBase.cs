@@ -25,6 +25,11 @@ public abstract class NodeBase
                 return null;
         }
     }
+
+    public virtual void SummonTowerOnTile(TowerBase tower)
+    {
+
+    }
 }
 public enum NodeType
 {

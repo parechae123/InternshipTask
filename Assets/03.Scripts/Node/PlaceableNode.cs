@@ -15,6 +15,18 @@ public class PlaceableNode : NodeBase
         //소환 ui버튼 팝업
 
     }
+    public override void SummonTowerOnTile(TowerBase tower)
+    {
+        if (builded != null)
+        {
+            builded.TowerDelete();
+            builded = tower;
+        }
+        else
+        {
+            Debug.LogError("예외오류, 존재하지 않는 tower값입니다.");
+        }
+    }
     public PlaceableNode(Transform nodeCenter)
     {
         NodeTransform = nodeCenter;
