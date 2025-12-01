@@ -4,11 +4,14 @@ using UnityEngine;
 using DG.Tweening;
 public class EnemyEntity : MonoBehaviour
 {
-    float moveSpeed = 10f;
+    float moveSpeed = 2f;
     Queue<Vector3> wayPoints;
     public void Init(Vector3[] wayPoints)
     {
         //시간 = 거리/속도
+        transform.parent = null;
+        transform.position = wayPoints[0];
+        gameObject.SetActive(true);
         this.wayPoints = new Queue<Vector3>(wayPoints);
         SetNextPoint();
     }
@@ -16,7 +19,7 @@ public class EnemyEntity : MonoBehaviour
     {
         if (wayPoints.TryDequeue(out Vector3 next))
         {
-            transform.DOMove(next, Vector3.Distance(next, transform.position) / moveSpeed).OnComplete(() => { SetNextPoint(); });
+            transform.DOMove(next, Vector3.Distance(next, transform.position) / moveSpeed).OnComplete(() => { SetNextPoint(); }).SetEase(Ease.Linear);
         }
     }
 }

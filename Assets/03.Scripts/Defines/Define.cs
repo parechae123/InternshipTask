@@ -143,21 +143,24 @@ namespace ResourceManaging
         }
     }
 }
-public interface State<T> where T : Enum
+public interface IState<T> where T : Enum
 {
-    StateMachine<T, State<T>> stateMachine { get; }
+    public T GetType { get; }
+    public StateMachine<T> stateMachine { get; set; }
     public void Enter();
     public void Execute();
     public void Exit();
 }
-public class StateMachine<T, V> where V : State<T> where T : Enum
+public class StateMachine<T> where T : Enum
 {
-    V curr;
-    Dictionary<T, V> states;
-    public StateMachine((T,V)[] states,T defaultState)
+    IState<T> curr;
+    Dictionary<T, IState<T>> states;
+    public StateMachine((T,IState<T>)[] states,T defaultState)
     {
+        this.states = new Dictionary<T, IState<T>>();
         for (int i = 0; i < states.Length; i++)
         {
+            states[i].Item2.stateMachine = this;
             this.states.Add(states[i].Item1, states[i].Item2);
         }
         curr = this.states[defaultState];

@@ -17,6 +17,12 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 34a6c3dc56caa6747a77da84cfc3abe9
   m_SerializeEntries:
+  - m_GUID: 334392286c0480046bddcb726d67b964
+    m_Address: EnemyEntity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78ccafd292344e546a336a6cfd1a5930
     m_Address: block_fix_stage_11
     m_ReadOnly: 0

@@ -1664,6 +1664,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b055bc0bf6f5614d93c9d2e0184144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints:
+  - {x: 5.3, y: 11.15, z: 0}
+  - {x: -5.5, y: 11.15, z: 0}
+  - {x: -5.5, y: -4.4, z: 0}
+  - {x: -1.7, y: -4.4, z: 0}
+  - {x: -1.7, y: 7.73, z: 0}
+  - {x: 1.84, y: 7.73, z: 0}
+  - {x: 1.84, y: -4.38, z: 0}
+  - {x: 5.43, y: -4.38, z: 0}
+  - {x: 5.43, y: 7.59, z: 0}
 --- !u!1001 &1706451953
 PrefabInstance:
   m_ObjectHideFlags: 0

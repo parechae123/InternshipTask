@@ -11,8 +11,14 @@ public class GameManager : SingleTon<GameManager>
 {
     Dictionary<string, List<TowerBase>> towers;
     public NodeBase selectedNode;
+    
     public LevelData[] totalLevelData;
     public LevelData currLevel;
+
+
+    public StateMachine<TurnType> turnStateMachine;
+    public MonsterSpawner spawner;
+
     public Dictionary<string,UnitData> totalUnit;
     public Dictionary<CharacterGrade, UnitData[]> gradeDict;
     public ResourceManaging.Pool<TowerEntity> towerPool;
@@ -35,6 +41,8 @@ public class GameManager : SingleTon<GameManager>
         currLevel = totalLevelData[0];
         UnitData[] tempData = JsonConvert.DeserializeObject<UnitData[]>(((TextAsset)ResourceManager.GetInstance.preLoaded["UnitData"]).text);
         totalUnit = new Dictionary<string, UnitData>();
+        turnStateMachine = new StateMachine<TurnType>
+            (new (TurnType,IState<TurnType>)[]{(TurnType.waitWave,new WaitTurnState(null)), (TurnType.spawnWave, new SpawnWaveTurnState(null)) },TurnType.waitWave);
         towerPool = new ResourceManaging.Pool<TowerEntity>("TowerEntity");
         enemyPool = new ResourceManaging.Pool<EnemyEntity>("EnemyEntity");
         for (int i = 0; i < tempData.Length; i++)
