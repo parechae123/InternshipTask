@@ -12,8 +12,10 @@ public class ObstacleNode : NodeBase
     public override void OnClick()
     {
         //UI 출력 후 이걸 해줘야함
-        NodeTransform.GetComponent<SpriteRenderer>().sprite = (Sprite)ResourceManager.GetInstance.preLoaded["block_normal_stage_11"]; 
-        NodeBase.Factory(NodeType.obstacled, NodeTransform);
+        UIManager.GetInstance.TradeButtonReset();
+        UIManager.GetInstance.fixBTN.SetEnable(NodeTransform.position + Vector3.forward
+            , GameManager.GetInstance.fixPrice <= GameManager.GetInstance.currMineral
+            , GameManager.GetInstance.fixPrice);
     }
     public ObstacleNode(Transform nodeCenter)
     {

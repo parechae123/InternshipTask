@@ -73,7 +73,7 @@ namespace ParsingData
     {
         public string dataname;
         public string uiname;
-        public CharactorGrade grade;
+        public CharacterGrade grade;
         public string spriteName;
         public AttackModuleType attackmodule;
         public float attackrange;
@@ -95,5 +95,48 @@ namespace ParsingData
     public class Wrapper<T>
     {
         public List<T> Sheet;
+    }
+}
+namespace ResourceManaging
+{
+    public class Pool<T> where T : MonoBehaviour
+    {
+        private Queue<T> pool;
+        private string key;
+        private Transform folder;
+        public Pool(string key)
+        {
+            this.key = key;
+            pool = new Queue<T>();
+            folder = new GameObject($"{key}Pool").transform;
+        }
+        /// <summary>
+        /// 씬 변경 등 캐싱되어있는 정보를 잃어버릴때 실행
+        /// </summary>
+        public void Reset()
+        {
+            pool.Clear();
+        }
+        public void EnQueue(T obj)
+        {
+            pool.Enqueue(obj);
+            obj.gameObject.SetActive(false);
+        }
+        public T DeQueue()
+        {
+            if (pool.TryDequeue(out T result))
+            {
+                result.gameObject.SetActive(false);
+                return result;
+            }
+            else
+            {
+                if (ResourceManager.GetInstance.preLoaded.TryGetValue(key,out object prefab))
+                {
+                    GameObject.Instantiate((GameObject)prefab, folder);
+                }
+                return null;
+            }
+        }
     }
 }

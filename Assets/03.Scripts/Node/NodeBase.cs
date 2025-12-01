@@ -26,7 +26,11 @@ public abstract class NodeBase
         }
     }
 
-    public virtual void SummonTowerOnTile(TowerBase tower)
+    public virtual void SummonTowerOnTile(ParsingData.UnitData tower)
+    {
+        
+    }
+    public virtual void RemoveBuild()
     {
 
     }

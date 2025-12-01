@@ -39,4 +39,12 @@ public class UIManager : SingleTon<UIManager>
         targetInstance = tempOBJ.GetComponent<T>();
         tempOBJ.transform.parent = staticCanvas.transform;
     }
+    public void TradeButtonReset()
+    {
+        shiftBTN.gameObject.SetActive(false);
+        fixBTN.gameObject.SetActive(false);
+        summonBTN.gameObject.SetActive(false);
+        upgradeBTN.gameObject.SetActive(false);
+    }
+
 }

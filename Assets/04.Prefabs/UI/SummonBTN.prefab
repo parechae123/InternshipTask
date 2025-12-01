@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAD6C\uB9E4"
+  m_text: "\uC18C\uD658"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c327694c58aaa54429648f40c0aa1ac8, type: 2}
   m_sharedMaterial: {fileID: -8991529284455060077, guid: c327694c58aaa54429648f40c0aa1ac8, type: 2}
@@ -465,7 +465,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2645486146705105544}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1692768815490992961}
+        m_TargetAssemblyTypeName: TradeBTN, Assembly-CSharp
+        m_MethodName: OnSummonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1692768815490992961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,8 +490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b273a6feb6ca1de46afda6efa8a55a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
-  value: {fileID: 0}
+  button: {fileID: 8450477903801991325}
+  value: {fileID: 2803823289092479296}
 --- !u!1 &8433629530044153298
 GameObject:
   m_ObjectHideFlags: 0

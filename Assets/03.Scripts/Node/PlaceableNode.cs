@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlaceableNode : NodeBase
 {
     public override Transform NodeTransform { get; set; }
-    public TowerBase builded;
+    private TowerBase builded;
     public override TowerBase Builded { get { return builded; } }
 
     public override NodeType GetNodeType { get { return NodeType.placeAble; } }
@@ -13,19 +13,48 @@ public class PlaceableNode : NodeBase
     public override void OnClick()
     {
         //소환 ui버튼 팝업
+        UIManager.GetInstance.TradeButtonReset();
+        GameManager.GetInstance.selectedNode = this;
+        if (builded == null)//
+        {
+            UIManager.GetInstance.TradeButtonReset();
+            UIManager.GetInstance.summonBTN.SetEnable(NodeTransform.position + Vector3.forward
+                , 20 <= GameManager.GetInstance.currGold
+                , 20);
+        }
+        else
+        {
+            if (builded.grade >= CharacterGrade.superRare)
+            {
+                UIManager.GetInstance.TradeButtonReset();
+                UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.forward
+                    , 20 <= GameManager.GetInstance.currGold
+                    , 20);
+            }
+            else
+            {
 
+                UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.forward
+                    , 20 <= GameManager.GetInstance.currGold
+                    , 20);
+                UIManager.GetInstance.upgradeBTN.SetEnable(NodeTransform.position + Vector3.back
+                    , GameManager.GetInstance.SearchDuplicateTower(builded) != null
+                    , 0);
+            }
+        }
     }
-    public override void SummonTowerOnTile(TowerBase tower)
+    public override void SummonTowerOnTile(ParsingData.UnitData tower)
     {
         if (builded != null)
         {
             builded.TowerDelete();
-            builded = tower;
         }
-        else
-        {
-            Debug.LogError("예외오류, 존재하지 않는 tower값입니다.");
-        }
+        builded = new TowerBase(tower);
+
+    }
+    public override void RemoveBuild()
+    {
+        builded = null;
     }
     public PlaceableNode(Transform nodeCenter)
     {

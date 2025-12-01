@@ -6,18 +6,21 @@ public class TowerBase
 {
     public string GetCodeName { get { return grade+towerName; } }
     public string towerName;
-    public CharactorGrade grade;
+    public CharacterGrade grade;
     public NodeBase standingNode;
-
-    /// <summary>
-    /// Queue 풀링필요
-    /// </summary>
-    public void TowerDelete()
+    public GameObject tower;
+    public TowerBase(NodeBase standing,ParsingData.UnitData data)
     {
+        standingNode = standing;
 
     }
+    public void TowerDelete()
+    {
+        GameManager.GetInstance.RemoveTower(this);
+        standingNode.RemoveBuild();
+    }
 }
-public enum CharactorGrade
+public enum CharacterGrade : ushort
 {
     common,unCommon,rare,superRare
 }

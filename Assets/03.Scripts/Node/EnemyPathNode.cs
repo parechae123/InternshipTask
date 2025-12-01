@@ -12,7 +12,7 @@ public class EnemyPathNode : NodeBase
 
     public override void OnClick()
     {
-
+        
     }
     public EnemyPathNode(Transform center)
     {

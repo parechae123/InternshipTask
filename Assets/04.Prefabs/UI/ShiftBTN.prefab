@@ -390,7 +390,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6784938058520861532}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 188502532676172282}
+        m_TargetAssemblyTypeName: TradeBTN, Assembly-CSharp
+        m_MethodName: OnShiftClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &188502532676172282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,8 +415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b273a6feb6ca1de46afda6efa8a55a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
-  value: {fileID: 0}
+  button: {fileID: 9191079705080842500}
+  value: {fileID: 283923026264539868}
 --- !u!1 &6630849575423701816
 GameObject:
   m_ObjectHideFlags: 0
