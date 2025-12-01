@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 namespace Singleton
 {
     public class SingleTon<T> where T : SingleTon<T>, new()
@@ -120,23 +121,56 @@ namespace ResourceManaging
         public void EnQueue(T obj)
         {
             pool.Enqueue(obj);
+            obj.transform.parent = folder;
             obj.gameObject.SetActive(false);
         }
         public T DeQueue()
         {
             if (pool.TryDequeue(out T result))
             {
-                result.gameObject.SetActive(false);
+                result.gameObject.SetActive(true);
                 return result;
             }
             else
             {
                 if (ResourceManager.GetInstance.preLoaded.TryGetValue(key,out object prefab))
                 {
-                    GameObject.Instantiate((GameObject)prefab, folder);
+                    GameObject obj = GameObject.Instantiate((GameObject)prefab, folder);
+                    return obj.GetComponent<T>();
                 }
                 return null;
             }
         }
     }
+}
+public interface State<T> where T : Enum
+{
+    StateMachine<T, State<T>> stateMachine { get; }
+    public void Enter();
+    public void Execute();
+    public void Exit();
+}
+public class StateMachine<T, V> where V : State<T> where T : Enum
+{
+    V curr;
+    Dictionary<T, V> states;
+    public StateMachine((T,V)[] states,T defaultState)
+    {
+        for (int i = 0; i < states.Length; i++)
+        {
+            this.states.Add(states[i].Item1, states[i].Item2);
+        }
+        curr = this.states[defaultState];
+    }
+    public void ChageState(T type)
+    {
+        curr.Exit();
+        curr = states[type];
+        curr.Enter();
+    }
+    public void OnExecute()
+    {
+        curr.Execute();
+    }
+
 }

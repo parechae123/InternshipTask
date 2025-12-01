@@ -29,8 +29,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8102d463283221e43b4bb2242530dc29
+    m_Address: UnitSprites
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 90b34257900f60a4095636bd22d7c965
     m_Address: block_normal_stage_11
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fcb91f9a37ce90488c7709612413432
+    m_Address: TowerEntity
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
@@ -43,12 +55,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d5a9fba00d15ac441ac0be002dff495f
     m_Address: block_stage_11
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f04c346eb80f12f4bae99a7f2b4043d7
-    m_Address: Assets/02.Sprites/Units
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload

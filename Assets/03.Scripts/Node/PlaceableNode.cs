@@ -18,7 +18,7 @@ public class PlaceableNode : NodeBase
         if (builded == null)//
         {
             UIManager.GetInstance.TradeButtonReset();
-            UIManager.GetInstance.summonBTN.SetEnable(NodeTransform.position + Vector3.forward
+            UIManager.GetInstance.summonBTN.SetEnable(NodeTransform.position + Vector3.up
                 , 20 <= GameManager.GetInstance.currGold
                 , 20);
         }
@@ -27,17 +27,17 @@ public class PlaceableNode : NodeBase
             if (builded.grade >= CharacterGrade.superRare)
             {
                 UIManager.GetInstance.TradeButtonReset();
-                UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.forward
+                UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.up
                     , 20 <= GameManager.GetInstance.currGold
                     , 20);
             }
             else
             {
-
-                UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.forward
+                UIManager.GetInstance.TradeButtonReset();
+                UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.up
                     , 20 <= GameManager.GetInstance.currGold
                     , 20);
-                UIManager.GetInstance.upgradeBTN.SetEnable(NodeTransform.position + Vector3.back
+                UIManager.GetInstance.upgradeBTN.SetEnable(NodeTransform.position + Vector3.down
                     , GameManager.GetInstance.SearchDuplicateTower(builded) != null
                     , 0);
             }
@@ -47,10 +47,9 @@ public class PlaceableNode : NodeBase
     {
         if (builded != null)
         {
-            builded.TowerDelete();
+            GameManager.GetInstance.RemoveTower(builded);
         }
-        builded = new TowerBase(tower);
-
+        builded = new TowerBase(this,tower);
     }
     public override void RemoveBuild()
     {

@@ -38,7 +38,8 @@ public class TradeBTN : MonoBehaviour
     {
         gameObject.SetActive(true);
         transform.position = Camera.main.WorldToScreenPoint(worldPosition);
-        button.enabled = condition;
-        value.text = price.ToString();
+        button.interactable = condition;
+         
+        if(value != null)value.text = price.ToString();
     }
 }

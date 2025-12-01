@@ -13,7 +13,7 @@ public class ObstacleNode : NodeBase
     {
         //UI 출력 후 이걸 해줘야함
         UIManager.GetInstance.TradeButtonReset();
-        UIManager.GetInstance.fixBTN.SetEnable(NodeTransform.position + Vector3.forward
+        UIManager.GetInstance.fixBTN.SetEnable(NodeTransform.position + Vector3.up
             , GameManager.GetInstance.fixPrice <= GameManager.GetInstance.currMineral
             , GameManager.GetInstance.fixPrice);
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class TowerEntity : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class TowerEntity : MonoBehaviour
     public void Init(ParsingData.UnitData data)
     {
         if (sr == null) sr.GetComponent<SpriteRenderer>();
-        sr.sprite = (Sprite)ResourceManager.GetInstance.preLoaded[data.spriteName];
+        sr.sprite = ((SpriteAtlas)(ResourceManager.GetInstance.preLoaded["UnitSprites"])).GetSprite(data.spriteName);
         switch (data.grade)
         {
             case CharacterGrade.common:
@@ -22,7 +23,7 @@ public class TowerEntity : MonoBehaviour
                 sr.color = Color.red;
                 break;
             case CharacterGrade.superRare:
-                sr.color = new Color(255, 194, 205);
+                sr.color = new Color32(255, 194, 205,255);
                 break;
         }
         attackModule = AttackModule.Factory(data);

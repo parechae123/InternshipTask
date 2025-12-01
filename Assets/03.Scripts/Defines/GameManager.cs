@@ -16,6 +16,7 @@ public class GameManager : SingleTon<GameManager>
     public Dictionary<string,UnitData> totalUnit;
     public Dictionary<CharacterGrade, UnitData[]> gradeDict;
     public ResourceManaging.Pool<TowerEntity> towerPool;
+    public ResourceManaging.Pool<EnemyEntity> enemyPool;
     public ushort currMineral = 10000;
     public ushort currGold = 10000;
     public ushort fixPrice = 10;
@@ -35,6 +36,7 @@ public class GameManager : SingleTon<GameManager>
         UnitData[] tempData = JsonConvert.DeserializeObject<UnitData[]>(((TextAsset)ResourceManager.GetInstance.preLoaded["UnitData"]).text);
         totalUnit = new Dictionary<string, UnitData>();
         towerPool = new ResourceManaging.Pool<TowerEntity>("TowerEntity");
+        enemyPool = new ResourceManaging.Pool<EnemyEntity>("EnemyEntity");
         for (int i = 0; i < tempData.Length; i++)
         {
             totalUnit.Add(tempData[i].grade + tempData[i].dataname, tempData[i]);
@@ -73,11 +75,11 @@ public class GameManager : SingleTon<GameManager>
     {
         if (tower == null) return;
         string key = tower.GetCodeName;
-        if (towers.TryGetValue(key,out List<TowerBase> towerList))
+        if (towers.ContainsKey(key))
         {
-            towerList.Remove(tower);
+            towers[key].Remove(tower);
             tower.TowerDelete();
-            if (towerList.Count <= 0) towerList.Clear();//불필요한 더블링 제거용
+            if (towers[key] != null &&towers[key].Count <= 0) towers[key].Clear();//불필요한 더블링 제거용
         }
         else
         {
@@ -115,9 +117,10 @@ public class GameManager : SingleTon<GameManager>
     public void UpGradeTower(NodeBase target)
     {
         string key = target.Builded.GetCodeName;
-        if (towers.TryGetValue(key,out List<TowerBase> towerList))
+        TowerBase tempTower = SearchDuplicateTower(target.Builded);
+        if (tempTower != null )
         {
-            RemoveTower(SearchDuplicateTower(target.Builded));
+            RemoveTower(tempTower);
             SummonTower(target, target.Builded.grade + 1);
             return;
         }

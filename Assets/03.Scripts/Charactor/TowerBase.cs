@@ -8,16 +8,22 @@ public class TowerBase
     public string towerName;
     public CharacterGrade grade;
     public NodeBase standingNode;
-    public GameObject tower;
+    private TowerEntity tower;
     public TowerBase(NodeBase standing,ParsingData.UnitData data)
     {
         standingNode = standing;
-
+        towerName = data.dataname;
+        grade = data.grade;
+        tower = GameManager.GetInstance.towerPool.DeQueue();
+        tower.Init(data);
+        tower.transform.parent = standing.NodeTransform;
+        tower.transform.position = standing.NodeTransform.position + Vector3.up * 0.5f;
+        GameManager.GetInstance.RegistTower(this);
     }
     public void TowerDelete()
     {
-        GameManager.GetInstance.RemoveTower(this);
         standingNode.RemoveBuild();
+        GameManager.GetInstance.towerPool.EnQueue(tower);
     }
 }
 public enum CharacterGrade : ushort
