@@ -4,19 +4,26 @@ using UnityEngine;
 public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] Vector3[] waypoints;
-
     bool isLoadDone =false;
+    private void Awake()
+    {
+        GameManager.GetInstance.spawner = this;
+    }
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => ResourceManager.GetInstance.loadDone && GameManager.GetInstance.turnStateMachine != null);
-        GameManager.GetInstance.spawner = this;
+        
         isLoadDone = true;
     }
-    public void Spawn()
+    public void SpawnBoss()
     {
-        GameManager.GetInstance.enemyPool.DeQueue().Init(waypoints);
+        BossWaveTurnState.pool.DeQueue().Init(waypoints);
     }
-    private void Update()
+    public void SpawnEnemy()
+    {
+        EnemyWaveTurnState.enemyPool.DeQueue().Init(waypoints);
+    }
+    private void LateUpdate()
     {
         if (isLoadDone)
         {

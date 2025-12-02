@@ -21,10 +21,34 @@ public class GameManager : SingleTon<GameManager>
 
     public Dictionary<string,UnitData> totalUnit;
     public Dictionary<CharacterGrade, UnitData[]> gradeDict;
+
+    private Dictionary<Collider2D, Action<float>> colliderSearch = new Dictionary<Collider2D, Action<float>>();
+
+    public Action<float> atkCommender;
+
     public ResourceManaging.Pool<TowerEntity> towerPool;
-    public ResourceManaging.Pool<EnemyEntity> enemyPool;
-    public ushort currMineral = 10000;
-    public ushort currGold = 10000;
+    public ushort currRound = 0;
+    private ushort currMineral = 100;
+    public ushort CurrMineral 
+    { 
+        get 
+        { return currMineral; } 
+        set 
+        {
+            UIManager.GetInstance.mineralText.text = value.ToString();
+            currMineral = value;
+        } 
+    }
+    private ushort currGold = 100;
+    public ushort CurrGold
+    {
+        get { return currGold; }
+        set 
+        { 
+            UIManager.GetInstance.goldText.text = value.ToString();
+            currGold = value; 
+        }
+    }
     public ushort fixPrice = 10;
 
 
@@ -42,9 +66,16 @@ public class GameManager : SingleTon<GameManager>
         UnitData[] tempData = JsonConvert.DeserializeObject<UnitData[]>(((TextAsset)ResourceManager.GetInstance.preLoaded["UnitData"]).text);
         totalUnit = new Dictionary<string, UnitData>();
         turnStateMachine = new StateMachine<TurnType>
-            (new (TurnType,IState<TurnType>)[]{(TurnType.waitWave,new WaitTurnState(null)), (TurnType.spawnWave, new SpawnWaveTurnState(null)) },TurnType.waitWave);
+            (new (TurnType,IState<TurnType>)[]
+            {
+                (TurnType.waitWave,new WaitTurnState()), 
+                (TurnType.bossWave, new BossWaveTurnState()),
+                (TurnType.spawnWave, new EnemyWaveTurnState()) },
+                TurnType.waitWave);
+
+
         towerPool = new ResourceManaging.Pool<TowerEntity>("TowerEntity");
-        enemyPool = new ResourceManaging.Pool<EnemyEntity>("EnemyEntity");
+
         for (int i = 0; i < tempData.Length; i++)
         {
             totalUnit.Add(tempData[i].grade + tempData[i].dataname, tempData[i]);
@@ -63,9 +94,19 @@ public class GameManager : SingleTon<GameManager>
     public override void Reset()
     {
         towers.Clear();
-        currMineral = 10000;
-        currGold = 10000;
+        colliderSearch.Clear();
+        EnemyWaveTurnState.enemyPool.Reset();
+        towerPool.Reset();
+        BossWaveTurnState.pool.Reset();
+
+        SummonAttackModule.summonPool.Reset();
+        MeleeAttackModule.effectPool.Reset();
+        ProjectileAttackModule.projPool.Reset();
+
+        currMineral = 100;
+        currGold = 100;
         fixPrice = 10;
+        currRound = 0;
     }
     public void RegistTower(TowerBase tower)
     {
@@ -150,5 +191,32 @@ public class GameManager : SingleTon<GameManager>
             }
         }
         return null;
+    }
+    public void RegistEnemy(Collider2D col,Action<float> action)
+    {
+        colliderSearch.Add(col, action);
+    }
+    public void ReleaseEnemy(Collider2D col,Action<float> action)
+    {
+        if (colliderSearch.ContainsKey(col))
+        {
+            colliderSearch[col] -= action;//咀记 秦力
+            colliderSearch.Remove(col);
+        }
+    }
+    public void ReleaseEnemy(Collider2D col)
+    {
+        if (colliderSearch.ContainsKey(col))
+        {
+            colliderSearch[col] -= col.GetComponent<EnemyEntity>().OnDamaged;//咀记 秦力
+            colliderSearch.Remove(col);
+        }
+    }
+    public void AttackEnemy(Collider2D col,float dmg)
+    {
+        if (colliderSearch.ContainsKey(col))
+        {
+            colliderSearch[col].Invoke(dmg);
+        }
     }
 }

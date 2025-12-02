@@ -141,6 +141,11 @@ namespace ResourceManaging
                 return null;
             }
         }
+
+        public int GetCount()
+        {
+            return pool.Count;
+        }
     }
 }
 public interface IState<T> where T : Enum
@@ -164,6 +169,7 @@ public class StateMachine<T> where T : Enum
             this.states.Add(states[i].Item1, states[i].Item2);
         }
         curr = this.states[defaultState];
+        curr.Enter();
     }
     public void ChageState(T type)
     {

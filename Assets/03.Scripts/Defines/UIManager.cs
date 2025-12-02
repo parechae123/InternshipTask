@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Singleton;
+using TMPro;
 /// <summary>
 /// ResourceManager°¡ 
 /// </summary>
@@ -15,6 +16,12 @@ public class UIManager : SingleTon<UIManager>
     public TradeBTN shiftBTN;
     public TradeBTN fixBTN;
 
+    public TextMeshProUGUI roundText;
+    public TextMeshProUGUI goldText;
+    public TextMeshProUGUI mineralText;
+    public TextMeshProUGUI workerText;
+    public TextMeshProUGUI timerText;
+    public GameObject gameOverPannel;
     protected override void Init()
     {
         LoadWait().Forget();

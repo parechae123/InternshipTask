@@ -26,7 +26,11 @@ public class TowerEntity : MonoBehaviour
                 sr.color = new Color32(255, 194, 205,255);
                 break;
         }
-        attackModule = AttackModule.Factory(data);
+        attackModule = AttackModule.Factory(data,transform);
+    }
+    private void Update()
+    {
+        attackModule.ReadyAttack();
     }
 }
 

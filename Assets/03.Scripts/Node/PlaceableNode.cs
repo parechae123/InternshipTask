@@ -19,7 +19,7 @@ public class PlaceableNode : NodeBase
         {
             UIManager.GetInstance.TradeButtonReset();
             UIManager.GetInstance.summonBTN.SetEnable(NodeTransform.position + Vector3.up
-                , 20 <= GameManager.GetInstance.currGold
+                , 20 <= GameManager.GetInstance.CurrGold
                 , 20);
         }
         else
@@ -28,14 +28,14 @@ public class PlaceableNode : NodeBase
             {
                 UIManager.GetInstance.TradeButtonReset();
                 UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.up
-                    , 20 <= GameManager.GetInstance.currGold
+                    , 20 <= GameManager.GetInstance.CurrGold
                     , 20);
             }
             else
             {
                 UIManager.GetInstance.TradeButtonReset();
                 UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.up
-                    , 20 <= GameManager.GetInstance.currGold
+                    , 20 <= GameManager.GetInstance.CurrGold
                     , 20);
                 UIManager.GetInstance.upgradeBTN.SetEnable(NodeTransform.position + Vector3.down
                     , GameManager.GetInstance.SearchDuplicateTower(builded) != null
