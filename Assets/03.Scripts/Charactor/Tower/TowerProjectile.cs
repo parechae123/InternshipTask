@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TowerProjectile : MonoBehaviour
 {
-    private float damage;
-    Vector3 relPos;
-    private float currTime;
-    private float goalTime = 100f;
-    private float bulletSpeed = 10f;
+    protected float damage;
+    protected Vector3 relPos;
+    protected float currTime;
+    protected float goalTime = 100f;
+    protected float bulletSpeed = 10f;
     private Collider2D targetCol;
-    public void Init(Collider2D target, Vector3 shooterPos, float damage)
+    public virtual void Init(Collider2D target, Vector3 shooterPos, float damage)
     {
         transform.position = shooterPos;
         targetCol = target;
@@ -53,12 +53,12 @@ public class TowerProjectile : MonoBehaviour
                 }
                 else
                 {
-                    if(currTime >= 20f) ProjectileAttackModule.projPool.EnQueue(this);
+                    if(currTime >= 20f) ProjectileAttackModule<TowerProjectile>.projPool.EnQueue(this);
                     return;
                 }
 
             }
-            ProjectileAttackModule.projPool.EnQueue(this);
+            ProjectileAttackModule<TowerProjectile>.projPool.EnQueue(this);
         }
     }
 }

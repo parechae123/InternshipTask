@@ -8,7 +8,7 @@ public class EnemyEntity : MonoBehaviour
     protected float atkDelay = 3f;
     protected float currTimer = 0f;
 
-    protected float moveSpeed = 10f;
+    protected float moveSpeed = 2f;
     protected float maxHP = 100;
     protected float currHP;
     protected Queue<Vector3> wayPoints;
@@ -78,5 +78,7 @@ public class EnemyEntity : MonoBehaviour
     protected virtual void OnDestroy()
     {
         GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
+        transform.DOKill(false);
+        sr.DOKill(false);
     }
 }

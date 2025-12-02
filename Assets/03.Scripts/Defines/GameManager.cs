@@ -95,13 +95,14 @@ public class GameManager : SingleTon<GameManager>
     {
         towers.Clear();
         colliderSearch.Clear();
-        EnemyWaveTurnState.enemyPool.Reset();
+        EnemyWaveTurnState.enemyPool?.Reset();
         towerPool.Reset();
-        BossWaveTurnState.pool.Reset();
+        BossWaveTurnState.pool?.Reset();
 
-        SummonAttackModule.summonPool.Reset();
-        MeleeAttackModule.effectPool.Reset();
-        ProjectileAttackModule.projPool.Reset();
+        SummonAttackModule.summonPool?.Reset();
+        MeleeAttackModule.effectPool?.Reset();
+        ProjectileAttackModule<TowerProjectile>.projPool?.Reset();
+        ProjectileAttackModule<PenetrateProjectile>.projPool?.Reset();
 
         currMineral = 100;
         currGold = 100;

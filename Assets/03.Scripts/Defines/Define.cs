@@ -82,6 +82,15 @@ namespace ParsingData
         public float damage;
         public float summonduration;
         public float tickdelay;
+        public UnitData(AttackModuleType attackmodule,float attackrange,float attackdelay,float damage,float summonduration,float tickdelay)
+        {
+            this.attackmodule = attackmodule;
+            this.attackrange = attackrange;
+            this.attackdelay = attackdelay;
+            this.damage = damage;
+            this.summonduration = summonduration;
+            this.tickdelay = tickdelay;
+        }
     }
     [System.Serializable]
     public class LevelData

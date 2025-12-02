@@ -66,22 +66,24 @@ public abstract class AttackModule
         switch (data.attackmodule)
         {
             case AttackModuleType.projectile:
-                return new ProjectileAttackModule(data,tr);
+                return new ProjectileAttackModule<TowerProjectile>(data,tr);
             case AttackModuleType.melee:
                 return new MeleeAttackModule(data,tr);
             case AttackModuleType.summon:
                 return new SummonAttackModule(data,tr);
+            case AttackModuleType.penetrateProjectile:
+                return new ProjectileAttackModule<PenetrateProjectile>(data, tr);
             default:
                 return null;
         }
     }
 }
-public class ProjectileAttackModule : AttackModule
+public class ProjectileAttackModule<T> : AttackModule where T : TowerProjectile
 {
-    public static ResourceManaging.Pool<TowerProjectile> projPool;
+    public static ResourceManaging.Pool<T> projPool;
     public ProjectileAttackModule(ParsingData.UnitData data,Transform tr)
     {
-        if (projPool == null) projPool=new ResourceManaging.Pool<TowerProjectile>("TowerProjectile");
+        if (projPool == null) projPool=new ResourceManaging.Pool<T>(typeof(T).Name);
         attackSEDRange = data.attackrange* data.attackrange;
         attackRange = data.attackrange;
         attackDelay = data.attackdelay;
@@ -141,5 +143,5 @@ public class SummonAttackModule : AttackModule
 
 public enum AttackModuleType
 {
-    projectile,melee,summon
+    projectile,melee,summon,penetrateProjectile
 }

@@ -9,8 +9,7 @@ public class NodeSetter : MonoBehaviour,IPointerClickHandler
     private NodeBase node;
     private void Awake()
     {
-        Debug.Log(UIManager.GetInstance);
-        Debug.Log(GameManager.GetInstance);
+
     }
     public void OnPointerClick(PointerEventData eventData)
     {
