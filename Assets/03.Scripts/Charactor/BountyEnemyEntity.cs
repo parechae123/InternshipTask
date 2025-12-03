@@ -4,83 +4,81 @@ using UnityEngine;
 using DG.Tweening;
 public class BountyEnemyEntity : EnemyEntity
 {
-    protected float atk = 10f;
-    protected float atkDelay = 3f;
-    protected float currTimer = 0f;
-
-    protected float moveSpeed = 2f;
-    protected float maxHP = 100;
-    protected float currHP;
-    protected Queue<Vector3> wayPoints;
-    [SerializeField] protected SpriteRenderer sr;
-    [SerializeField] protected Collider2D col;
-    private bool arrive = false;
-    public virtual void Init(Vector3[] wayPoints)
+    BountyPopManaging managing;
+    ushort benefit;
+    bool isGold;
+    public void Init(Vector3[] wayPoints,BountyData data, BountyPopManaging managing,MonsterHPBar hpBar)
     {
+        if (managing == null) this.managing = managing;
         //시간 = 거리/속도
         transform.parent = null;
         transform.position = wayPoints[0];
 
-        atk = 10f + GameManager.GetInstance.currRound;
-        maxHP = 300 + (10f * GameManager.GetInstance.currRound);
-        currTimer = 0f;
+
+        this.isGold = data.isGold;
+        this.benefit = data.benefit;
+        atk = data.damage;
+        this.managing = managing;
+        this.maxHP = data.maxHP;
+
+        sr.color = data.color;
 
         currHP = maxHP;
         gameObject.SetActive(true);
-        arrive = false;
         this.wayPoints = new Queue<Vector3>(wayPoints);
         GameManager.GetInstance.RegistEnemy(col, OnDamaged);
+
+        this.hpBar = hpBar;
+        hpBar.Init(transform);
+        hpBar.SetMaxHP(maxHP);
 
         SetNextPoint();
     }
 
-    public void LateUpdate()
-    {
-        if (arrive)
-        {
-            currTimer += Time.deltaTime;
-            if (currTimer >= atkDelay)
-            {
-                currTimer -= atkDelay;//프레임으로 인한 DPS손실방지
-                GameManager.GetInstance.atkCommender?.Invoke(atk);
-            }
-        }
-    }
 
-    protected void SetNextPoint()
+    protected override void SetNextPoint()
     {
-        if (wayPoints.Count == 0) arrive = true;
+        if (wayPoints.Count == 0)
+        {
+            GameManager.GetInstance.atkCommender?.Invoke(atk);
+            transform.position = Vector3.one * 100; ;
+            transform.DOKill(false);
+            sr.DOKill(true);
+            sr.color = Color.black;
+            managing.pool.EnQueue(this);
+            GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
+        }
         if (wayPoints.TryDequeue(out Vector3 next))
         {
             transform.DOMove(next, Vector3.Distance(next, transform.position) / moveSpeed).OnComplete(() => { SetNextPoint(); }).SetEase(Ease.Linear);
         }
     }
-    public void OnDamaged(float dmg)
+    protected override void OnDie()
     {
-        currHP -= dmg;
-        if (currHP <= 0)
-        {
-            OnDie();
-            return;
-        }
-        sr.DOKill(true);
-        sr.DOColor(Color.red, 0.05f).OnComplete(()=> sr.color = Color.black);
-    }
-    protected virtual void OnDie()
-    {
-        transform.position = Vector3.one * 100;
-        arrive = false;
-        EnemyWaveTurnState.enemyPool.EnQueue(this);
+        transform.position = Vector3.one * 100; ; 
+        managing.pool.EnQueue(this);
         transform.DOKill(false);
         sr.DOKill(true);
         sr.color = Color.black;
+        hpBar.Release();
         GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
-        GameManager.GetInstance.CurrGold += 1;
+        if (isGold)
+        {
+            GameManager.GetInstance.CurrGold += benefit;
+        }
+        else
+        {
+            GameManager.GetInstance.CurrMineral += benefit;
+
+        }
     }
-    protected virtual void OnDestroy()
-    {
-        GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
-        transform.DOKill(false);
-        sr.DOKill(false);
-    }
+}
+[System.Serializable]
+public class BountyData
+{
+    public float maxHP;
+    public bool isGold;
+    public ushort benefit;
+    public float damage;
+    public Color color;
 }

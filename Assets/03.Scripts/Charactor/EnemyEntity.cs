@@ -12,10 +12,11 @@ public class EnemyEntity : MonoBehaviour
     protected float maxHP = 100;
     protected float currHP;
     protected Queue<Vector3> wayPoints;
+    protected MonsterHPBar hpBar;
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected Collider2D col;
     private bool arrive = false;
-    public virtual void Init(Vector3[] wayPoints)
+    public virtual void Init(Vector3[] wayPoints,MonsterHPBar hpBar)
     {
         //시간 = 거리/속도
         transform.parent = null;
@@ -30,6 +31,10 @@ public class EnemyEntity : MonoBehaviour
         arrive = false;
         this.wayPoints = new Queue<Vector3>(wayPoints);
         GameManager.GetInstance.RegistEnemy(col, OnDamaged);
+
+        this.hpBar = hpBar;
+        hpBar.Init(transform);
+        hpBar.SetMaxHP(maxHP);
 
         SetNextPoint();
     }
@@ -47,7 +52,7 @@ public class EnemyEntity : MonoBehaviour
         }
     }
 
-    protected void SetNextPoint()
+    protected virtual void SetNextPoint()
     {
         if (wayPoints.Count == 0) arrive = true;
         if (wayPoints.TryDequeue(out Vector3 next))
@@ -65,9 +70,11 @@ public class EnemyEntity : MonoBehaviour
         }
         sr.DOKill(true);
         sr.DOColor(Color.red, 0.05f).OnComplete(()=> sr.color = Color.black);
+        hpBar.SetValue(currHP);
     }
     protected virtual void OnDie()
     {
+        hpBar.Release();
         transform.position = Vector3.one * 100;
         arrive = false;
         EnemyWaveTurnState.enemyPool.EnQueue(this);
