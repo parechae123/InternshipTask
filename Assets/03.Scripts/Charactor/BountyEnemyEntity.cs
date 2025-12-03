@@ -26,11 +26,12 @@ public class BountyEnemyEntity : EnemyEntity
         currHP = maxHP;
         gameObject.SetActive(true);
         this.wayPoints = new Queue<Vector3>(wayPoints);
-        GameManager.GetInstance.RegistEnemy(col, OnDamaged);
+        GameManager.GetInstance.RegistEnemy(col, base.OnDamaged);
 
         this.hpBar = hpBar;
         hpBar.Init(transform);
         hpBar.SetMaxHP(maxHP);
+        originColor = sr.color;
 
         SetNextPoint();
     }
@@ -44,9 +45,9 @@ public class BountyEnemyEntity : EnemyEntity
             transform.position = Vector3.one * 100; ;
             transform.DOKill(false);
             sr.DOKill(true);
-            sr.color = Color.black;
+            sr.color = originColor;
             managing.pool.EnQueue(this);
-            GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
+            GameManager.GetInstance.ReleaseEnemy(col, base.OnDamaged);
         }
         if (wayPoints.TryDequeue(out Vector3 next))
         {
@@ -59,9 +60,8 @@ public class BountyEnemyEntity : EnemyEntity
         managing.pool.EnQueue(this);
         transform.DOKill(false);
         sr.DOKill(true);
-        sr.color = Color.black;
         hpBar.Release();
-        GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
+        GameManager.GetInstance.ReleaseEnemy(col, base.OnDamaged);
         if (isGold)
         {
             GameManager.GetInstance.CurrGold += benefit;

@@ -19,7 +19,7 @@ public class BossEntity : EnemyEntity
         this.hpBar = hpBar;
         hpBar.Init(transform);
         hpBar.SetMaxHP(maxHP);
-
+        originColor = sr.color;
         SetNextPoint();
     }
     protected override void OnDie()
@@ -29,9 +29,5 @@ public class BossEntity : EnemyEntity
         GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
         hpBar.Release();
 
-    }
-    protected override void OnDestroy()
-    {
-        GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
     }
 }

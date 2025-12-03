@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 2186992940953403093}
-  col: {fileID: 0}
+  col: {fileID: 4809504894966834028}
 --- !u!58 &4809504894966834028
 CircleCollider2D:
   m_ObjectHideFlags: 0

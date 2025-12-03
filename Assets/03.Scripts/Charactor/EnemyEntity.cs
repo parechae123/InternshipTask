@@ -13,6 +13,7 @@ public class EnemyEntity : MonoBehaviour
     protected float currHP;
     protected Queue<Vector3> wayPoints;
     protected MonsterHPBar hpBar;
+    protected Color originColor;
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected Collider2D col;
     private bool arrive = false;
@@ -35,7 +36,7 @@ public class EnemyEntity : MonoBehaviour
         this.hpBar = hpBar;
         hpBar.Init(transform);
         hpBar.SetMaxHP(maxHP);
-
+        originColor = sr.color;
         SetNextPoint();
     }
 
@@ -69,7 +70,7 @@ public class EnemyEntity : MonoBehaviour
             return;
         }
         sr.DOKill(true);
-        sr.DOColor(Color.red, 0.05f).OnComplete(()=> sr.color = Color.black);
+        sr.DOColor(Color.red, 0.05f).OnComplete(()=> sr.color = originColor);
         hpBar.SetValue(currHP);
     }
     protected virtual void OnDie()
@@ -80,7 +81,7 @@ public class EnemyEntity : MonoBehaviour
         EnemyWaveTurnState.enemyPool.EnQueue(this);
         transform.DOKill(false);
         sr.DOKill(true);
-        sr.color = Color.black;
+        sr.color = originColor;
         GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
         GameManager.GetInstance.CurrGold += 1;
     }
@@ -89,5 +90,6 @@ public class EnemyEntity : MonoBehaviour
         GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
         transform.DOKill(false);
         sr.DOKill(false);
+        GameObject.Destroy(hpBar.gameObject);
     }
 }
