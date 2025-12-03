@@ -29,7 +29,7 @@ public abstract class AttackModule
         if (targetCollider != null)
         {
             //사망체크 및 거리체크
-            if (!targetCollider.gameObject.activeSelf || GetSED(tr.position,targetCollider.transform.position) > attackSEDRange)
+            if (!targetCollider.gameObject.activeSelf || GetSED(tr.position, targetCollider.transform.position) > attackSEDRange)
             {
                 targetCollider = null;
             }
@@ -111,8 +111,8 @@ public class MeleeAttackModule : AttackModule
     }
     public override void OnAttack()
     {
-        GameManager.GetInstance.AttackEnemy(targetCollider, damage);
         effectPool.DeQueue().Init(targetCollider.transform.position);
+        GameManager.GetInstance.AttackEnemy(targetCollider, damage);
     }
 }
 public class SummonAttackModule : AttackModule

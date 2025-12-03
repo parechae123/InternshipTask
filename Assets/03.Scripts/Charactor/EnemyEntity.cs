@@ -68,6 +68,7 @@ public class EnemyEntity : MonoBehaviour
     }
     protected virtual void OnDie()
     {
+        transform.position = Vector3.one * 100;
         arrive = false;
         EnemyWaveTurnState.enemyPool.EnQueue(this);
         transform.DOKill(false);
