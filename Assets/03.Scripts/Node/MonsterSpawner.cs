@@ -12,7 +12,7 @@ public class MonsterSpawner : MonoBehaviour
     }
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => ResourceManager.GetInstance.loadDone && GameManager.GetInstance.turnStateMachine != null);
+        if(!ResourceManager.GetInstance.loadDone|| GameManager.GetInstance.turnStateMachine == null) yield return new WaitUntil(() => ResourceManager.GetInstance.loadDone && GameManager.GetInstance.turnStateMachine != null);
         hpPool = new ResourceManaging.Pool<MonsterHPBar>("MonsterHPBar");
         isLoadDone = true;
     }

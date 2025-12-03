@@ -90,6 +90,7 @@ public class EnemyEntity : MonoBehaviour
         GameManager.GetInstance.ReleaseEnemy(col, OnDamaged);
         transform.DOKill(false);
         sr.DOKill(false);
-        GameObject.Destroy(hpBar.gameObject);
+        if(hpBar != null) GameObject.Destroy(hpBar.gameObject);
+
     }
 }

@@ -114,20 +114,15 @@ public class GameManager : SingleTon<GameManager>
         ProjectileAttackModule<TowerProjectile>.projPool?.Reset();
         ProjectileAttackModule<PenetrateProjectile>.projPool?.Reset();
 
-        turnStateMachine = new StateMachine<TurnType>
-    (new (TurnType, IState<TurnType>)[]
-    {
-                (TurnType.waitWave,new WaitTurnState()),
-                (TurnType.bossWave, new BossWaveTurnState()),
-                (TurnType.spawnWave, new EnemyWaveTurnState()) },
-        TurnType.waitWave);
-
+        currRound = 0;
         isMaxWorker = false;
         workerPrice = 50;
         currMineral = 100;
         currGold = 100;
         fixPrice = 10;
-        currRound = 0;
+        turnStateMachine.ChageState(TurnType.waitWave);
+
+
     }
     public void RegistTower(TowerBase tower)
     {
