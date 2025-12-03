@@ -24,19 +24,21 @@ public class PlaceableNode : NodeBase
         }
         else
         {
+            ushort shiftValue = (ushort)(((ushort)Builded.grade + 1) * 10);
             if (builded.grade >= CharacterGrade.superRare)
             {
+                
                 UIManager.GetInstance.TradeButtonReset();
                 UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.up
-                    , 20 <= GameManager.GetInstance.CurrGold
-                    , 20);
+                    , shiftValue <= GameManager.GetInstance.CurrMineral
+                    , shiftValue);
             }
             else
             {
                 UIManager.GetInstance.TradeButtonReset();
                 UIManager.GetInstance.shiftBTN.SetEnable(NodeTransform.position + Vector3.up
-                    , 20 <= GameManager.GetInstance.CurrGold
-                    , 20);
+                    , shiftValue <= GameManager.GetInstance.CurrMineral
+                    , shiftValue);
                 UIManager.GetInstance.upgradeBTN.SetEnable(NodeTransform.position + Vector3.down
                     , GameManager.GetInstance.SearchDuplicateTower(builded) != null
                     , 0);

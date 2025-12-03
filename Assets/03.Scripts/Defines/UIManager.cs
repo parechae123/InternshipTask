@@ -22,6 +22,9 @@ public class UIManager : SingleTon<UIManager>
     public TextMeshProUGUI workerText;
     public TextMeshProUGUI timerText;
     public GameObject gameOverPannel;
+    public GameObject bountyPannel;
+
+    public WorkerProducer workerProducer = new WorkerProducer();
     protected override void Init()
     {
         LoadWait().Forget();

@@ -5,10 +5,11 @@ using UnityEngine.EventSystems;
 
 public class PlayerCtrler : MonoBehaviour
 {
-    // Update is called once per frame
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (!ResourceManager.GetInstance.loadDone) return;
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
@@ -17,6 +18,8 @@ public class PlayerCtrler : MonoBehaviour
             else
             {
                 UIManager.GetInstance.TradeButtonReset();
+                UIManager.GetInstance.workerProducer.pannel.SetActive(false);
+                UIManager.GetInstance.bountyPannel.SetActive(false);
             }
         }
     }

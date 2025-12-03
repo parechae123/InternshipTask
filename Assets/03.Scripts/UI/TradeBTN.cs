@@ -10,19 +10,24 @@ public class TradeBTN : MonoBehaviour
     GameManager gm { get { return GameManager.GetInstance; } }
     public void OnSummonClick()
     {
+        if (GameManager.GetInstance.CurrGold < 20) return;
         GameManager.GetInstance.CurrGold -= 20;
         gm.SummonTower(gm.selectedNode, gm.GetSummonGrade());
         UIManager.GetInstance.TradeButtonReset();
     }
     public void OnShiftClick()
     {
-        GameManager.GetInstance.CurrMineral -= (ushort)(((ushort)gm.selectedNode.Builded.grade + 1) * 10);
+        ushort price = (ushort)(((ushort)gm.selectedNode.Builded.grade + 1) * 10);
+        if (GameManager.GetInstance.CurrMineral < price) return;
 
-        gm.SummonTower(gm.selectedNode, gm.selectedNode.Builded.grade);
+        GameManager.GetInstance.CurrMineral -= price;
+
+        gm.SummonTower(gm.selectedNode, gm.selectedNode.Builded.grade, gm.selectedNode.Builded.moduleType);
         UIManager.GetInstance.TradeButtonReset();
     }
     public void OnFixClick()
     {
+        if (GameManager.GetInstance.CurrMineral < GameManager.GetInstance.fixPrice) return;
         GameManager.GetInstance.CurrMineral -= GameManager.GetInstance.fixPrice;
         NodeSetter setter = gm.selectedNode.NodeTransform.GetComponent<NodeSetter>();
         setter.OnNodeChangeToPlaceable();
@@ -39,7 +44,15 @@ public class TradeBTN : MonoBehaviour
         gameObject.SetActive(true);
         transform.position = Camera.main.WorldToScreenPoint(worldPosition);
         button.interactable = condition;
-         
+
+        if(value != null)value.text = price.ToString();
+    }
+    public void SetEnable(Vector3 worldPosition,bool condition,ushort price)
+    {
+        gameObject.SetActive(true);
+        transform.position = Camera.main.WorldToScreenPoint(worldPosition);
+        button.interactable = condition;
+
         if(value != null)value.text = price.ToString();
     }
 }

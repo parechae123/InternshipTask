@@ -28,6 +28,9 @@ public class GameManager : SingleTon<GameManager>
 
     public ResourceManaging.Pool<TowerEntity> towerPool;
     public ushort currRound = 0;
+
+    public bool isMaxWorker = false;
+
     private ushort currMineral = 100;
     public ushort CurrMineral 
     { 
@@ -39,17 +42,25 @@ public class GameManager : SingleTon<GameManager>
             currMineral = value;
         } 
     }
-    private ushort currGold = 100;
+    private ushort currGold = 10000;
     public ushort CurrGold
     {
         get { return currGold; }
         set 
         { 
             UIManager.GetInstance.goldText.text = value.ToString();
+            if(!isMaxWorker) UIManager.GetInstance.workerProducer.produceButton.interactable = workerPrice <= value;
             currGold = value; 
         }
     }
     public ushort fixPrice = 10;
+
+    private ushort workerPrice = 50;
+    public ushort WorkerPrice
+    {
+        get { return workerPrice; }
+        set { UIManager.GetInstance.workerProducer.valueText.text = value.ToString(); workerPrice = value; }
+    }
 
 
     protected override void Init()
@@ -98,12 +109,13 @@ public class GameManager : SingleTon<GameManager>
         EnemyWaveTurnState.enemyPool?.Reset();
         towerPool.Reset();
         BossWaveTurnState.pool?.Reset();
-
         SummonAttackModule.summonPool?.Reset();
         MeleeAttackModule.effectPool?.Reset();
         ProjectileAttackModule<TowerProjectile>.projPool?.Reset();
         ProjectileAttackModule<PenetrateProjectile>.projPool?.Reset();
 
+        isMaxWorker = false;
+        workerPrice = 50;
         currMineral = 100;
         currGold = 100;
         fixPrice = 10;
@@ -142,6 +154,18 @@ public class GameManager : SingleTon<GameManager>
         {
             node.SummonTowerOnTile(result[UnityEngine.Random.Range(0,result.Length)]);
 
+        }
+    }
+    public void SummonTower(NodeBase node,CharacterGrade grade, AttackModuleType excludeModule)
+    {
+        if (gradeDict.TryGetValue(grade,out UnitData[] result))
+        {
+            int excludeType = (int)excludeModule;
+            while (excludeType == (int)excludeModule)
+            {
+                excludeType = UnityEngine.Random.Range(0, result.Length);
+            }
+            node.SummonTowerOnTile(result[excludeType]);
         }
     }
     //데이터시트가 배열형이면 While문으로 CharacterGrade의 int값을 매핑해서 리펙토링 해도 될듯

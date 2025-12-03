@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class EnemyEntity : MonoBehaviour
+public class BountyEnemyEntity : EnemyEntity
 {
     protected float atk = 10f;
     protected float atkDelay = 3f;
